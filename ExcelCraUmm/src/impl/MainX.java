@@ -3,7 +3,6 @@ package impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import dao.ReadX;
@@ -58,5 +57,4 @@ public class MainX {
 		}
 		}
 	}
-
 }
