@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import logic.DistinctCX;
 
@@ -32,8 +33,11 @@ import beans.DataStructures;
 import exceptions.RowNotFoundException;
 import util.*;
 public class ReadX {
+	private ConnectorX cx;
+	private int cNo;
 	
 	public String readR(ConnectorX cx, int rNo) throws EncryptedDocumentException, InvalidFormatException, IOException, RowNotFoundException{
+		setCx(cx);setcNo(rNo);
 		String fileType=cx.getFileName();
 		if(fileType.endsWith("xls")){
 			readTopRowH(cx,rNo);
@@ -50,6 +54,7 @@ public class ReadX {
 	
 	public String readC(ConnectorX cx, int cNo) throws EncryptedDocumentException, InvalidFormatException, IOException, RowNotFoundException {
 		// TODO Auto-generated method stub
+		setCx(cx);setcNo(cNo);
 		String fileType=cx.getFileName();
 		if(fileType.endsWith("xls")){
 			readFirstColumnH(cx, cNo);
@@ -65,7 +70,7 @@ public class ReadX {
 	}
 	
 	public void readTopRowH(ConnectorX cx,int rNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
-		
+		setCx(cx);setcNo(rNo);
 		HSSFWorkbook wbk= (HSSFWorkbook) WorkbookFactory.create(cx.getFile());
 		HSSFSheet xwbksh= wbk.getSheet("Sheet1");
 		List<HSSFCell> rowOne =  new DataStructures().getLhCell();
@@ -99,7 +104,7 @@ public class ReadX {
 	}
 	
 	public void readTopRowX(ConnectorX cx,int rNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
-		
+		setCx(cx);setcNo(rNo);
 		XSSFWorkbook wbk= (XSSFWorkbook) WorkbookFactory.create(cx.getFile());
 		XSSFSheet xwbksh= wbk.getSheet("Sheet1");
 		List<XSSFCell> rowOne =  new DataStructures().getLxCell();
@@ -130,8 +135,8 @@ public class ReadX {
 		cx.getFile().close();
 	}
 	
-	public void readFirstColumnX(ConnectorX cx,int cNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
-		
+	public TreeSet<String> readFirstColumnX(ConnectorX cx,int cNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
+		setCx(cx);setcNo(cNo);
 		String cOne="";
 		XSSFWorkbook wbk = (XSSFWorkbook) WorkbookFactory.create(cx.getFile());
 		XSSFSheet xwbksh = wbk.getSheet("Sheet1");
@@ -145,11 +150,11 @@ public class ReadX {
 		}
 		System.out.println(cOne);
 		cx.getFile().close();
-		new DistinctCX().inixTree((ArrayList<XSSFCell>) colOne, cNo);
+		return new DistinctCX().inixTree((ArrayList<XSSFCell>) colOne, cNo);
 	}
 	
-public void readFirstColumnH(ConnectorX cx,int cNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
-	
+public TreeSet<String> readFirstColumnH(ConnectorX cx,int cNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
+		setCx(cx);setcNo(cNo);
 		String cOne="";
 		HSSFWorkbook wbk = (HSSFWorkbook) WorkbookFactory.create(cx.getFile());
 		HSSFSheet xwbksh = wbk.getSheet("Sheet1");
@@ -161,6 +166,22 @@ public void readFirstColumnH(ConnectorX cx,int cNo) throws IOException, Encrypte
 		}
 		System.out.println(cOne);
 		cx.getFile().close();
-		new DistinctCX().inihTree((ArrayList<HSSFCell>) colOne,cNo);
+		return new DistinctCX().inihTree((ArrayList<HSSFCell>) colOne,cNo);
 	}
+
+public ConnectorX getCx() {
+	return cx;
+}
+
+public void setCx(ConnectorX cx) {
+	this.cx = cx;
+}
+
+public int getcNo() {
+	return cNo;
+}
+
+public void setcNo(int cNo) {
+	this.cNo = cNo;
+}
 }

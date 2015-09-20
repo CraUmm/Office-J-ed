@@ -14,21 +14,23 @@ import util.Constants;
 public class DistinctCX {
 	private Set<String> tsUID;
 	
-	public void inixTree(ArrayList<XSSFCell> xCell,int cNo) {
-		Iterator<XSSFCell> xVal =xCell.iterator();
-		while(xVal.hasNext()){
-			if(xVal.next().getCellType()==Cell.CELL_TYPE_STRING){
-				tsUID.add(xVal.next().getStringCellValue());
-			} else if (xVal.next().getCellType()==Cell.CELL_TYPE_NUMERIC) {
-				tsUID.add(Double.valueOf(xVal.next().getNumericCellValue()).toString());
+	public TreeSet<String> inixTree(ArrayList<XSSFCell> xCell,int cNo) {
+		//Iterator<XSSFCell> xVal =xCell.iterator();
+		tsUID = new TreeSet<String>();
+		for(int i=0;i<xCell.size();i++){
+			if(xCell.get(i).getCellType()==Cell.CELL_TYPE_STRING){
+				tsUID.add(xCell.get(i).getStringCellValue());
+			} else if (xCell.get(i).getCellType()==Cell.CELL_TYPE_NUMERIC) {
+				tsUID.add(Double.valueOf(xCell.get(i).getNumericCellValue()).toString());
 			} else {
-				tsUID.add(xVal.next().getCellFormula());
+				tsUID.add(xCell.get(i).getCellFormula());
 			}
 		}
 		showSet(cNo);
+		return (TreeSet<String>) tsUID;
 	}
 
-	public void inihTree(ArrayList<HSSFCell> xCell, int cNo) {
+	public TreeSet<String> inihTree(ArrayList<HSSFCell> xCell, int cNo) {
 		//Iterator<HSSFCell> xVal =xCell.listIterator();
 		//while(xVal.hasNext())
 		tsUID= new TreeSet<String>();
@@ -42,6 +44,7 @@ public class DistinctCX {
 			}
 		}
 		showSet(cNo);
+		return (TreeSet<String>) tsUID;
 	}
 	
 	public void showSet(int cNo){

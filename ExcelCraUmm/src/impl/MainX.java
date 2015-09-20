@@ -3,8 +3,12 @@ package impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import logic.MapTU;
+
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
 import dao.ReadX;
 import exceptions.RowNotFoundException;
 import service.CreateX;
@@ -42,6 +46,7 @@ public class MainX {
 		try {
 			//System.out.println(rx.readR(cx,rNo));
 			System.out.println(rx.readC(cx, rNo));
+			new MapTU().setReadX(rx);
 		} catch (EncryptedDocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
