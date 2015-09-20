@@ -132,7 +132,6 @@ public class ReadX {
 	
 	public void readFirstColumnX(ConnectorX cx,int cNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
 		
-		int i=0;
 		String cOne="";
 		XSSFWorkbook wbk = (XSSFWorkbook) WorkbookFactory.create(cx.getFile());
 		XSSFSheet xwbksh = wbk.getSheet("Sheet1");
@@ -143,46 +142,22 @@ public class ReadX {
 		while(rows.hasNext()){
 
 			colOne.add((XSSFCell) ((XSSFRow) rows.next()).getCell(cNo));
-			if(colOne.get(i).getCellType()==Cell.CELL_TYPE_STRING){
-				cOne+=colOne.get(i).getStringCellValue().concat(Constants.fieldGap);
-			}
-			else if(colOne.get(i).getCellType()==Cell.CELL_TYPE_NUMERIC){
-				cOne+=Double.valueOf(colOne.get(i).getNumericCellValue()).toString().concat(Constants.fieldGap);
-			}
-			else if(colOne.get(i).getCellType()==Cell.CELL_TYPE_FORMULA){
-				CellValue cVal= new XSSFFormulaEvaluator(wbk).evaluate(colOne.get(i));
-				cOne+=cVal.formatAsString().concat(Constants.fieldGap);
-				//cOne+=colOne.get(i).getCellFormula().concat(Constants.fieldGap);
-			}
-			i++;
 		}
 		System.out.println(cOne);
 		cx.getFile().close();
+		new DistinctCX().inixTree((ArrayList<XSSFCell>) colOne, cNo);
 	}
 	
 public void readFirstColumnH(ConnectorX cx,int cNo) throws IOException, EncryptedDocumentException, InvalidFormatException, RowNotFoundException{
-		
-		int i=0;
+	
 		String cOne="";
 		HSSFWorkbook wbk = (HSSFWorkbook) WorkbookFactory.create(cx.getFile());
 		HSSFSheet xwbksh = wbk.getSheet("Sheet1");
 		List<HSSFCell> colOne= new ArrayList<HSSFCell>();
-		
 		Iterator<Row> rows = xwbksh.iterator();
 		
 		while(rows.hasNext()){
-
 			colOne.add((HSSFCell) ((HSSFRow) rows.next()).getCell(cNo));
-			if(colOne.get(i).getCellType()==Cell.CELL_TYPE_STRING){
-				cOne+=colOne.get(i).getStringCellValue().concat(Constants.fieldGap);
-			}
-			else if(colOne.get(i).getCellType()==Cell.CELL_TYPE_NUMERIC){
-				cOne+=Double.valueOf(colOne.get(i).getNumericCellValue()).toString().concat(Constants.fieldGap);
-			}
-			else if(colOne.get(i).getCellType()==Cell.CELL_TYPE_FORMULA){
-				cOne+=colOne.get(i).getCellFormula().concat(Constants.fieldGap);
-			}
-			i++;
 		}
 		System.out.println(cOne);
 		cx.getFile().close();
